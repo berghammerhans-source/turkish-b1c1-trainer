@@ -62,14 +62,12 @@ export function DailyWriting() {
 
       // 2. Rufe Edge Function auf
       const { data: functionData, error: functionError } = await supabase.functions.invoke(
-        'super-processor',
+        'analyze-writing',
         {
           body: {
             exerciseId: exercise.id,
             userText: userText,
-          },
-          headers: {
-            'x-user-id': user.id,
+            userId: user.id,  // userId im Body statt Header
           },
         }
       );
