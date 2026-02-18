@@ -31,11 +31,17 @@ const PROMPTS = [
 
 export function DailyWriting() {
   const [prompt] = useState(PROMPTS[Math.floor(Math.random() * PROMPTS.length)]);
+  const [useCustomTopic, setUseCustomTopic] = useState(false);
+  const [customTopic, setCustomTopic] = useState('');
   const [userText, setUserText] = useState('');
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState<WritingAnalysis | null>(null);
 
   const handleSubmit = async () => {
+    if (useCustomTopic && !customTopic.trim()) {
+      alert('Bitte gib ein Thema ein!');
+      return;
+    }
     if (userText.trim().length < 50) {
       alert('Bitte schreibe mindestens 50 Zeichen!');
       return;
@@ -51,7 +57,7 @@ export function DailyWriting() {
         .from('writing_exercises')
         .insert({
           user_id: user.id,
-          prompt_de: prompt,
+          prompt_de: useCustomTopic ? customTopic : prompt,
           user_text_tr: userText,
           word_count: userText.split(/\s+/).length,
         })
@@ -85,22 +91,58 @@ export function DailyWriting() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-lg mb-6">
+      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-lg mb-6">
         <h2 className="text-2xl font-bold mb-2">📝 Tägliche Schreibübung</h2>
-        <p className="text-blue-100">Schreibe mindestens 100 Wörter auf Türkisch</p>
+        <p className="text-red-100">Schreibe mindestens 100 Wörter auf Türkisch</p>
+      </div>
+
+      {/* Topic selection */}
+      <div className="flex gap-4 mb-4">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            checked={!useCustomTopic}
+            onChange={() => setUseCustomTopic(false)}
+            className="w-4 h-4"
+          />
+          <span>🎲 Zufälliges Thema</span>
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            checked={useCustomTopic}
+            onChange={() => setUseCustomTopic(true)}
+            className="w-4 h-4"
+          />
+          <span>✍️ Eigenes Thema</span>
+        </label>
       </div>
 
       {/* Prompt */}
-      <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-4">
-        <p className="font-semibold text-amber-800">Thema:</p>
-        <p className="text-amber-900">{prompt}</p>
-      </div>
+      {!useCustomTopic ? (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-4">
+          <p className="font-semibold text-amber-800">Thema:</p>
+          <p className="text-amber-900">{prompt}</p>
+        </div>
+      ) : (
+        <div className="mb-4">
+          <label className="block font-semibold text-amber-800 mb-2">Dein Thema:</label>
+          <input
+            type="text"
+            value={customTopic}
+            onChange={(e) => setCustomTopic(e.target.value)}
+            placeholder="z.B. Meine Reise nach Istanbul"
+            className="w-full p-4 border border-amber-300 rounded-lg bg-amber-50 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            disabled={loading || analysis !== null}
+          />
+        </div>
+      )}
 
       {/* Textfeld */}
       <textarea
         value={userText}
         onChange={(e) => setUserText(e.target.value)}
-        className="w-full h-64 p-4 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500"
+        className="w-full h-64 p-4 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-red-500"
         placeholder="Schreibe hier auf Türkisch..."
         disabled={loading || analysis !== null}
       />
@@ -112,7 +154,7 @@ export function DailyWriting() {
         <button
           onClick={handleSubmit}
           disabled={loading || analysis !== null}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+          className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 disabled:bg-gray-400"
         >
           {loading ? '⏳ Analysiere...' : '🚀 Analysieren'}
         </button>
@@ -142,12 +184,12 @@ export function DailyWriting() {
 
           {/* Variants */}
           {analysis.variants && (
-            <div className="bg-white border-l-4 border-blue-500 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold mb-4 text-blue-700">✨ 3 Varianten</h3>
+            <div className="bg-white border-l-4 border-red-500 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold mb-4 text-red-700">✨ 3 Varianten</h3>
               
               <div className="mb-4">
                 <h4 className="font-semibold text-gray-700 mb-2">💼 Business Formell:</h4>
-                <p className="bg-blue-50 p-3 rounded">{analysis.variants.business_formal}</p>
+                <p className="bg-red-50 p-3 rounded">{analysis.variants.business_formal}</p>
               </div>
 
               <div className="mb-4">
@@ -157,19 +199,19 @@ export function DailyWriting() {
 
               <div>
                 <h4 className="font-semibold text-gray-700 mb-2">🎓 C1 Sophistiziert:</h4>
-                <p className="bg-purple-50 p-3 rounded">{analysis.variants.c1_sophisticated}</p>
+                <p className="bg-amber-50 p-3 rounded">{analysis.variants.c1_sophisticated}</p>
               </div>
             </div>
           )}
 
           {/* Deyimler */}
           {analysis.suggested_deyimler && analysis.suggested_deyimler.length > 0 && (
-            <div className="bg-white border-l-4 border-purple-500 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold mb-4 text-purple-700">🎯 Deyimler für dich</h3>
+            <div className="bg-white border-l-4 border-amber-500 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold mb-4 text-amber-800">🎯 Deyimler für dich</h3>
               <div className="space-y-3">
                 {analysis.suggested_deyimler.map((d, i) => (
-                  <div key={i} className="bg-purple-50 p-4 rounded">
-                    <p className="font-bold text-purple-900 mb-1">{d.deyim}</p>
+                  <div key={i} className="bg-amber-50 p-4 rounded">
+                    <p className="font-bold text-amber-900 mb-1">{d.deyim}</p>
                     <p className="text-gray-700 mb-1">📖 {d.meaning_de}</p>
                     <p className="text-sm text-gray-600 mb-2">💡 {d.usage}</p>
                     <p className="text-sm bg-white p-2 rounded italic">{d.example_in_context}</p>

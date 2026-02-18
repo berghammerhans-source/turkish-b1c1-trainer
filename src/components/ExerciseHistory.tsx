@@ -95,14 +95,14 @@ export function ExerciseHistory() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-6 rounded-lg mb-6">
+      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-lg mb-6">
         <h2 className="text-2xl font-bold mb-2">📜 Meine Übungen</h2>
-        <p className="text-purple-100">Alle deine bisherigen Schreibübungen und Analysen</p>
+        <p className="text-red-100">Alle deine bisherigen Schreibübungen und Analysen</p>
       </div>
 
       {exercises.length === 0 ? (
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-          <p className="text-blue-800">📝 Noch keine Übungen vorhanden. Schreibe deine erste Übung!</p>
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded">
+          <p className="text-amber-800">📝 Noch keine Übungen vorhanden. Schreibe deine erste Übung!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -114,7 +114,7 @@ export function ExerciseHistory() {
                 onClick={() => setSelectedExercise(exercise)}
                 className={`bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-all cursor-pointer border-l-4 ${
                   selectedExercise?.id === exercise.id
-                    ? 'border-purple-500 ring-2 ring-purple-200'
+                    ? 'border-red-500 ring-2 ring-red-200'
                     : 'border-gray-300'
                 }`}
               >
@@ -181,12 +181,12 @@ export function ExerciseHistory() {
 
                     {/* Varianten */}
                     <div className="mb-6">
-                      <h4 className="font-semibold text-blue-700 mb-3">✨ Varianten</h4>
+                      <h4 className="font-semibold text-red-700 mb-3">✨ Varianten</h4>
                       
                       {selectedExercise.correction.variant_business && (
                         <div className="mb-3">
                           <p className="text-xs font-semibold text-gray-600 mb-1">💼 Business:</p>
-                          <div className="bg-blue-50 p-3 rounded text-sm">
+                          <div className="bg-red-50 p-3 rounded text-sm">
                             {selectedExercise.correction.variant_business}
                           </div>
                         </div>
@@ -204,7 +204,7 @@ export function ExerciseHistory() {
                       {selectedExercise.correction.variant_c1 && (
                         <div className="mb-3">
                           <p className="text-xs font-semibold text-gray-600 mb-1">🎓 C1:</p>
-                          <div className="bg-purple-50 p-3 rounded text-sm">
+                          <div className="bg-amber-50 p-3 rounded text-sm">
                             {selectedExercise.correction.variant_c1}
                           </div>
                         </div>
@@ -215,13 +215,13 @@ export function ExerciseHistory() {
                     {selectedExercise.correction.suggested_deyimler && 
                      selectedExercise.correction.suggested_deyimler.length > 0 && (
                       <div>
-                        <h4 className="font-semibold text-purple-700 mb-3">
+                        <h4 className="font-semibold text-amber-800 mb-3">
                           🎯 Deyimler ({selectedExercise.correction.suggested_deyimler.length})
                         </h4>
                         <div className="space-y-2 max-h-48 overflow-y-auto">
                           {selectedExercise.correction.suggested_deyimler.map((d, i) => (
-                            <div key={i} className="bg-purple-50 p-3 rounded border border-purple-100">
-                              <p className="font-bold text-purple-900 text-sm">{d.deyim}</p>
+                            <div key={i} className="bg-amber-50 p-3 rounded border border-amber-100">
+                              <p className="font-bold text-amber-900 text-sm">{d.deyim}</p>
                               <p className="text-gray-700 text-xs mt-1">📖 {d.meaning_de}</p>
                             </div>
                           ))}
