@@ -37,7 +37,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen font-sans">
+    <div className="font-sans" style={{ minHeight: '100vh', background: '#f8f8f8' }}>
       {/* Header - Turkish flag colors */}
       <header className="bg-gradient-to-r from-red-600 to-red-700 shadow-lg sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
