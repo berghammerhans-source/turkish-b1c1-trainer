@@ -67,33 +67,23 @@ export default function Auth() {
 
       {/* ── LEFT PANEL (decorative) ── */}
       <div
-        className="hidden lg:flex flex-col justify-between w-1/2 p-12 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #C8102E 0%, #9B0022 100%)' }}
+        className="hidden lg:flex flex-col justify-between w-1/2 p-16 relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #E30A17 0%, #B5081A 100%)' }}
       >
-        {/* Crescent watermark */}
-        <div
-          className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none"
-          style={{
-            fontSize: '520px',
-            lineHeight: 1,
-            color: 'rgba(255,255,255,0.06)',
-            right: '-80px',
-          }}
-        >
-          ☽
-        </div>
-
-        {/* Star watermark */}
+        {/* Turkish flag crescent + star - properly proportioned */}
         <div
           className="absolute select-none pointer-events-none"
           style={{
-            fontSize: '120px',
-            color: 'rgba(255,255,255,0.05)',
-            top: '20%',
-            right: '18%',
+            top: '50%',
+            left: '55%',
+            transform: 'translate(-50%, -50%)',
+            opacity: 0.15,
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          ★
+          <span style={{ fontSize: '280px', lineHeight: 1, color: 'white' }}>☽</span>
+          <span style={{ fontSize: '110px', lineHeight: 1, color: 'white', marginLeft: '-40px', marginBottom: '30px' }}>★</span>
         </div>
 
         {/* Logo */}
@@ -117,7 +107,7 @@ export default function Auth() {
           >
             "
           </div>
-          <p className="text-white text-2xl font-light leading-relaxed mb-4">
+          <p className="text-white font-light leading-relaxed mb-6">
             Türkisch nicht nur sprechen –<br />
             <span style={{ color: '#F0B429', fontWeight: 600 }}>wirklich beherrschen.</span>
           </p>
@@ -134,22 +124,22 @@ export default function Auth() {
             { num: 'B1→C1', label: 'Niveau-Sprung' },
           ].map((s) => (
             <div key={s.label}>
-              <div className="text-white font-bold text-xl">{s.num}</div>
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>{s.label}</div>
+              <div className="text-white font-bold text-2xl">{s.num}</div>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── RIGHT PANEL (form) ── */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
+      <div className="flex-1 flex items-center justify-center px-12 py-12">
         <div className="w-full max-w-md">
 
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center gap-3 justify-center mb-10">
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg"
-              style={{ background: '#C8102E', color: 'white' }}
+              style={{ background: '#E30A17', color: 'white' }}
             >
               TR
             </div>
@@ -160,7 +150,7 @@ export default function Auth() {
 
           {/* Heading */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2" style={{ color: 'white' }}>
+            <h1 className="text-4xl font-bold mb-3" style={{ color: 'white' }}>
               {tab === 'login' ? 'Willkommen zurück' : 'Konto erstellen'}
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '15px' }}>
@@ -182,7 +172,7 @@ export default function Auth() {
                 onClick={() => { setTab(t); setError(null); setSuccessMessage(null); }}
                 className="flex-1 py-2.5 text-sm font-medium rounded-lg transition-all"
                 style={{
-                  background: tab === t ? '#C8102E' : 'transparent',
+                  background: tab === t ? '#E30A17' : 'transparent',
                   color: tab === t ? 'white' : 'rgba(255,255,255,0.4)',
                 }}
               >
@@ -217,7 +207,7 @@ export default function Auth() {
                   fontSize: '15px',
                 }}
                 onFocus={(e) => {
-                  e.target.style.border = '1px solid #C8102E';
+                  e.target.style.border = '1px solid #E30A17';
                   e.target.style.background = 'rgba(200,16,46,0.08)';
                 }}
                 onBlur={(e) => {
@@ -252,7 +242,7 @@ export default function Auth() {
                   fontSize: '15px',
                 }}
                 onFocus={(e) => {
-                  e.target.style.border = '1px solid #C8102E';
+                  e.target.style.border = '1px solid #E30A17';
                   e.target.style.background = 'rgba(200,16,46,0.08)';
                 }}
                 onBlur={(e) => {
@@ -289,7 +279,7 @@ export default function Auth() {
               disabled={loading}
               className="w-full py-3.5 rounded-xl font-semibold text-white transition-all"
               style={{
-                background: loading ? 'rgba(200,16,46,0.5)' : 'linear-gradient(135deg, #C8102E, #9B0022)',
+                background: loading ? 'rgba(200,16,46,0.5)' : 'linear-gradient(135deg, #E30A17, #B5081A)',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 fontSize: '15px',
                 boxShadow: loading ? 'none' : '0 4px 24px rgba(200,16,46,0.35)',
