@@ -37,9 +37,9 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="font-sans" style={{ minHeight: '100vh', background: '#ffffff' }}>
+    <div>
       {/* Header - Turkish flag colors */}
-      <header className="bg-gradient-to-r from-red-600 to-red-700 shadow-lg sticky top-0 z-10">
+      <header className="bg-gradient-to-r from-red-600 to-red-700 shadow-lg sticky top-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
@@ -108,7 +108,7 @@ export default function Dashboard() {
       </div>
 
       {/* Active Content */}
-      <main className="bg-white max-w-6xl mx-auto p-8" style={{ background: '#ffffff' }}>
+      <main className="bg-white max-w-6xl mx-auto p-8">
         {activeTab === 'writing' && <DailyWriting />}
         {activeTab === 'mistakes' && <MistakeTracker />}
         {activeTab === 'history' && <ExerciseHistory />}
