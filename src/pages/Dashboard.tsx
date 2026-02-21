@@ -51,68 +51,88 @@ export default function Dashboard() {
     <div
       className="min-h-screen bg-cream flex font-sans relative"
       style={{
-        backgroundImage: 'radial-gradient(rgba(26,10,14,0.05) 1px, transparent 1px)',
-        backgroundSize: '24px 24px',
+        backgroundImage: 'radial-gradient(#e5e7eb 1px, transparent 1px)',
+        backgroundSize: '16px 16px',
       }}
     >
-      {/* Sidebar – minimal, nur Icons, verschwindet im Focus Mode */}
+      {/* Sidebar – w-64, klarer Hintergrund, Labels sichtbar */}
       <aside
-        className={`w-20 shrink-0 bg-cream flex flex-col transition-all duration-300 ${navOpacity}`}
+        className={`w-64 shrink-0 bg-white border-r border-dark/[0.06] flex flex-col transition-all duration-300 ${navOpacity}`}
       >
-        <div className="p-3 border-b border-dark/[0.06]">
-          <span className="font-display text-sm font-medium text-dark/30 block truncate" aria-label="Türkçe Pro">
-            TP
-          </span>
+        <div className="p-4 border-b border-dark/[0.06]">
+          <span className="font-display text-lg font-medium text-dark/80">Türkçe Pro</span>
         </div>
-        <nav className="flex-1 p-2 flex flex-col gap-1">
+        <nav className="flex-1 p-3 flex flex-col gap-0.5">
           {NAV_ITEMS.map(({ id, label, Icon }) => (
             <button
               key={id}
               type="button"
-              title={label}
               onClick={() => setActiveTab(id)}
-              className={`flex items-center justify-center p-2.5 rounded-btn transition-colors ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-btn text-left text-sm font-medium transition-colors ${
                 activeTab === id
                   ? 'text-brand bg-brand/10'
-                  : 'text-dark/30 hover:bg-dark/[0.06] hover:text-dark/60'
+                  : 'text-dark/70 hover:bg-dark/[0.06] hover:text-dark'
               }`}
             >
               <Icon className="w-5 h-5 shrink-0" />
+              {label}
             </button>
           ))}
         </nav>
-        <div className="p-2 border-t border-dark/[0.06] space-y-2">
+        <div className="p-3 border-t border-dark/[0.06] space-y-2">
           <button
             type="button"
-            title="Abmelden"
             onClick={handleLogout}
-            className="flex items-center justify-center w-full p-2.5 rounded-btn text-dark/30 hover:bg-dark/[0.06] hover:text-dark/60 transition-colors"
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-btn text-sm font-medium text-dark/80 hover:bg-dark/[0.06] hover:text-dark transition-colors"
           >
             <LogOut className="w-5 h-5 shrink-0" />
+            Abmelden
           </button>
-          <p className="text-[10px] uppercase tracking-widest text-dark/30 text-center px-1">
+          <p className="text-[10px] uppercase tracking-widest text-dark/30 text-center px-1 pt-1">
             Türkçe Pro v1.0
           </p>
         </div>
       </aside>
 
-      {/* Main content – bei Focus Mode Card zentrieren */}
+      {/* Main content – max-w-5xl, 2-Spalten auf großen Bildschirmen */}
       <main className="flex-1 min-w-0 flex flex-col">
         <div
-          className={`max-w-4xl w-full mx-auto flex-1 px-4 sm:px-6 py-8 flex flex-col gap-8 transition-all duration-300 ${
+          className={`max-w-5xl w-full mx-auto flex-1 px-4 sm:px-6 py-8 flex flex-col gap-8 transition-all duration-300 ${
             writingFocused && activeTab === 'writing'
               ? 'justify-center items-center min-h-[calc(100vh-0px)]'
               : ''
           }`}
         >
           {activeTab === 'writing' && (
-            <div className="w-full relative">
-              {/* Feine vertikale Linie links neben der Card (nur Schreib-Ansicht) */}
-              <div
-                className="absolute left-0 top-0 bottom-0 w-px bg-dark/[0.06] hidden sm:block -ml-4 sm:-ml-6"
-                aria-hidden
-              />
-              <DailyWriting onWritingFocusChange={setWritingFocused} />
+            <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-8 lg:gap-10">
+              <div className="min-w-0 relative">
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-px bg-dark/[0.06] hidden sm:block -ml-4 sm:-ml-6"
+                  aria-hidden
+                />
+                <DailyWriting onWritingFocusChange={setWritingFocused} />
+              </div>
+              {/* Rechte Spalte: Stats & Tipps (nur wenn nicht im Focus Mode) */}
+              {!writingFocused && (
+                <aside className="hidden lg:block space-y-6">
+                  <div className="bg-white rounded-xl border border-cream-dark/5 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.06)]">
+                    <h3 className="font-display text-sm font-semibold text-dark/80 uppercase tracking-wide mb-3">
+                      Heutiges Ziel
+                    </h3>
+                    <p className="text-dark/70 text-sm font-sans">Mind. 100 Wörter auf Türkisch schreiben.</p>
+                  </div>
+                  <div className="bg-white rounded-xl border border-cream-dark/5 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.06)]">
+                    <h3 className="font-display text-sm font-semibold text-dark/80 uppercase tracking-wide mb-3">
+                      Tipps
+                    </h3>
+                    <ul className="text-dark/60 text-sm font-sans space-y-2 list-disc list-inside">
+                      <li>Nutze die 3 Varianten (Business, Alltag, C1) nach der Analyse.</li>
+                      <li>Korrekturen zeigen dir typische Muster – baue sie in deinen Wortschatz ein.</li>
+                      <li>Deyimler machen deinen Text natürlicher.</li>
+                    </ul>
+                  </div>
+                </aside>
+              )}
             </div>
           )}
           {activeTab === 'mistakes' && <MistakeTracker />}

@@ -113,10 +113,10 @@ export function DailyWriting({ onWritingFocusChange }: DailyWritingProps) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="bg-white rounded-xl p-8 lg:p-16 border border-cream-dark/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+      <div className="bg-white rounded-xl p-8 lg:p-16 border border-cream-dark/5 shadow-[0_12px_48px_rgb(0,0,0,0.08)]">
         <div className="pb-6 mb-6 border-b border-cream-dark/10">
-          <h2 className="font-serif text-2xl text-dark font-semibold flex items-center gap-2">
-            <PenLine className="w-6 h-6 text-gold shrink-0" />
+          <h2 className="font-serif text-4xl text-dark font-semibold flex items-center gap-2">
+            <PenLine className="w-8 h-8 text-gold shrink-0" />
             Tägliche Schreibübung
           </h2>
           <p className="text-dark/60 text-sm font-sans mt-1">Schreibe mindestens 100 Wörter auf Türkisch</p>
@@ -173,7 +173,7 @@ export function DailyWriting({ onWritingFocusChange }: DailyWritingProps) {
             onChange={(e) => setUserText(e.target.value)}
             onFocus={() => onWritingFocusChange?.(true)}
             onBlur={() => onWritingFocusChange?.(false)}
-            className="w-full min-h-[280px] p-0 border-0 bg-transparent text-xl leading-[1.8] text-dark/80 focus:ring-0 focus:shadow-none outline-none font-sans resize-none placeholder:italic placeholder:font-serif placeholder:opacity-30"
+            className="w-full min-h-[280px] p-0 border-0 bg-transparent text-2xl leading-loose text-dark/80 focus:ring-0 focus:shadow-none outline-none font-sans resize-none placeholder:italic placeholder:font-serif placeholder:opacity-30"
             placeholder="Schreibe hier auf Türkisch..."
           />
         </div>
