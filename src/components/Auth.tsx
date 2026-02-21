@@ -63,128 +63,81 @@ export default function Auth() {
 
   const handleSubmit = tab === 'login' ? handleLogin : handleRegister;
 
+  const inputClass =
+    'w-full px-4 py-3 bg-white/5 text-white text-[15px] rounded-btn shadow-sm outline-none transition-colors focus:bg-white/10 font-sans box-border border-0';
+  const labelClass = 'block text-white/60 text-[13px] font-medium mb-2 font-sans';
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: '#111' }}>
-
+    <div className="min-h-screen flex bg-dark">
       {/* ── LEFT: Turkish flag panel ── */}
-      <div style={{
-        width: '50%',
-        background: '#E30A17',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '48px',
-      }}>
-        {/* Turkish flag symbol - centered watermark */}
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          fontSize: '200px',
-          color: 'white',
-          opacity: 0.15,
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }}>☽★</div>
-
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', position: 'relative', zIndex: 1 }}>
-          <div style={{
-            width: '44px', height: '44px',
-            background: 'rgba(255,255,255,0.2)',
-            borderRadius: '12px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'white', fontWeight: 700, fontSize: '16px',
-          }}>TR</div>
-          <span style={{ color: 'white', fontWeight: 700, fontSize: '20px', letterSpacing: '0.03em' }}>TürkçePro</span>
+      <div className="w-1/2 bg-brand relative overflow-hidden flex flex-col justify-between p-12">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[200px] text-white opacity-15 pointer-events-none select-none">
+          ☽★
         </div>
-
-        {/* Center content */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: '64px', fontFamily: 'Georgia, serif', lineHeight: 1, marginBottom: '16px' }}>"</div>
-          <p style={{ color: 'white', fontSize: '28px', fontWeight: 300, lineHeight: 1.5, marginBottom: '12px' }}>
+        <div className="flex items-center gap-3 relative z-10">
+          <div className="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center text-white font-bold text-base font-sans">
+            TR
+          </div>
+          <span className="text-white font-bold text-xl tracking-wide font-sans">Türkçe Pro</span>
+        </div>
+        <div className="relative z-10">
+          <div className="text-white/20 text-[64px] font-serif leading-none mb-4">"</div>
+          <p className="text-white text-[28px] font-light leading-snug mb-3 font-sans">
             Türkisch nicht nur sprechen –<br />
-            <span style={{ color: '#FFD700', fontWeight: 600 }}>wirklich beherrschen.</span>
+            <span className="text-amber-300 font-semibold">wirklich beherrschen.</span>
           </p>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px' }}>
+          <p className="text-white/60 text-sm font-sans">
             B1 → C1 · KI-Korrekturen · Deyimler · Business-Türkisch
           </p>
         </div>
-
-        {/* Stats */}
-        <div style={{ display: 'flex', gap: '40px', position: 'relative', zIndex: 1 }}>
+        <div className="flex gap-10 relative z-10 font-sans">
           {[
             { num: '3', label: 'Varianten pro Text' },
             { num: '∞', label: 'Deyimler lernen' },
             { num: 'B1→C1', label: 'Niveau-Sprung' },
           ].map((s) => (
             <div key={s.label}>
-              <div style={{ color: 'white', fontWeight: 700, fontSize: '22px' }}>{s.num}</div>
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', marginTop: '2px' }}>{s.label}</div>
+              <div className="text-white font-bold text-[22px]">{s.num}</div>
+              <div className="text-white/50 text-xs mt-0.5">{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── RIGHT: Form panel ── */}
-      <div style={{
-        width: '50%',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '48px',
-      }}>
-        <div style={{ width: '100%', maxWidth: '420px' }}>
-
-          {/* Heading */}
-          <h1 style={{ color: 'white', fontSize: '36px', fontWeight: 700, marginBottom: '8px' }}>
-            {tab === 'login' ? 'Willkommen zurück' : 'Konto erstellen'}
+      <div className="w-1/2 min-h-screen flex items-center justify-center p-12 bg-dark">
+        <div className="w-full max-w-[420px] font-sans">
+          {/* Branding: Türkçe Pro prominent über dem Formular */}
+          <h1 className="text-center text-white text-4xl font-serif font-bold mb-2">
+            Türkçe Pro
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '15px', marginBottom: '32px' }}>
+
+          <h2 className="text-white text-3xl font-bold mb-2 font-sans">
+            {tab === 'login' ? 'Willkommen zurück' : 'Konto erstellen'}
+          </h2>
+          <p className="text-white/40 text-[15px] mb-8 font-sans">
             {tab === 'login' ? 'Melde dich an um weiterzuüben.' : 'Kostenlos starten – keine Kreditkarte nötig.'}
           </p>
 
           {/* Tab switcher */}
-          <div style={{
-            display: 'flex',
-            background: 'rgba(255,255,255,0.06)',
-            borderRadius: '12px',
-            padding: '4px',
-            marginBottom: '28px',
-          }}>
+          <div className="flex bg-white/5 rounded-btn p-1 mb-7">
             {(['login', 'register'] as Tab[]).map((t) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => { setTab(t); setError(null); setSuccessMessage(null); }}
-                style={{
-                  flex: 1,
-                  padding: '10px',
-                  borderRadius: '10px',
-                  border: 'none',
-                  background: tab === t ? '#E30A17' : 'transparent',
-                  color: tab === t ? 'white' : 'rgba(255,255,255,0.4)',
-                  fontWeight: 500,
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
+                className={`flex-1 py-2.5 rounded-[6px] border-0 font-medium text-sm cursor-pointer transition-all font-sans no-underline ${
+                  tab === t ? 'bg-brand text-white' : 'bg-transparent text-white/40'
+                }`}
               >
                 {t === 'login' ? 'Anmelden' : 'Registrieren'}
               </button>
             ))}
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '13px', fontWeight: 500, marginBottom: '8px' }}>
-                E-Mail
-              </label>
+            <div className="mb-4">
+              <label className={labelClass}>E-Mail</label>
               <input
                 type="email"
                 value={email}
@@ -192,26 +145,12 @@ export default function Auth() {
                 required
                 autoComplete="email"
                 placeholder="deine@email.de"
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  background: 'rgba(255,255,255,0.07)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '10px',
-                  color: 'white',
-                  fontSize: '15px',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-                onFocus={(e) => { e.target.style.border = '1px solid #E30A17'; }}
-                onBlur={(e) => { e.target.style.border = '1px solid rgba(255,255,255,0.1)'; }}
+                className={inputClass}
               />
             </div>
 
-            <div style={{ marginBottom: '24px' }}>
-              <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '13px', fontWeight: 500, marginBottom: '8px' }}>
-                Passwort
-              </label>
+            <div className="mb-6">
+              <label className={labelClass}>Passwort</label>
               <input
                 type="password"
                 value={password}
@@ -220,40 +159,20 @@ export default function Auth() {
                 autoComplete={tab === 'login' ? 'current-password' : 'new-password'}
                 minLength={6}
                 placeholder="••••••••"
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  background: 'rgba(255,255,255,0.07)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '10px',
-                  color: 'white',
-                  fontSize: '15px',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-                onFocus={(e) => { e.target.style.border = '1px solid #E30A17'; }}
-                onBlur={(e) => { e.target.style.border = '1px solid rgba(255,255,255,0.1)'; }}
+                className={inputClass}
               />
               {tab === 'register' && (
-                <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px', marginTop: '6px' }}>Mindestens 6 Zeichen</p>
+                <p className="text-white/30 text-xs mt-1.5 font-sans">Mindestens 6 Zeichen</p>
               )}
             </div>
 
             {error && (
-              <div style={{
-                padding: '12px 16px', borderRadius: '10px', marginBottom: '16px',
-                background: 'rgba(227,10,23,0.15)', border: '1px solid rgba(227,10,23,0.3)',
-                color: '#FCA5A5', fontSize: '14px',
-              }}>
+              <div className="py-3 px-4 rounded-btn mb-4 bg-brand/15 border border-brand/30 text-red-200 text-sm font-sans">
                 {error}
               </div>
             )}
             {successMessage && (
-              <div style={{
-                padding: '12px 16px', borderRadius: '10px', marginBottom: '16px',
-                background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)',
-                color: '#86EFAC', fontSize: '14px',
-              }}>
+              <div className="py-3 px-4 rounded-btn mb-4 bg-green-500/10 border border-green-500/20 text-green-200 text-sm font-sans">
                 {successMessage}
               </div>
             )}
@@ -261,35 +180,22 @@ export default function Auth() {
             <button
               type="submit"
               disabled={loading}
-              style={{
-                width: '100%',
-                padding: '14px',
-                background: loading ? 'rgba(227,10,23,0.5)' : '#E30A17',
-                border: 'none',
-                borderRadius: '10px',
-                color: 'white',
-                fontWeight: 600,
-                fontSize: '15px',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                boxShadow: loading ? 'none' : '0 4px 20px rgba(227,10,23,0.4)',
-                transition: 'all 0.2s',
-              }}
+              className="btn w-full py-3.5 bg-brand text-white font-semibold text-[15px] rounded-btn font-sans border-0 cursor-pointer shadow-md hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all no-underline"
             >
               {loading ? 'Bitte warten…' : tab === 'login' ? 'Anmelden' : 'Konto erstellen'}
             </button>
           </form>
 
-          <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: 'rgba(255,255,255,0.25)' }}>
+          <p className="text-center mt-6 text-sm text-white/25 font-sans">
             {tab === 'login' ? 'Noch kein Konto? ' : 'Bereits registriert? '}
             <button
               type="button"
               onClick={() => { setTab(tab === 'login' ? 'register' : 'login'); setError(null); setSuccessMessage(null); }}
-              style={{ color: '#FFD700', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: 500 }}
+              className="text-amber-300 bg-transparent border-0 cursor-pointer text-sm font-medium font-sans no-underline hover:underline"
             >
               {tab === 'login' ? 'Jetzt registrieren' : 'Anmelden'}
             </button>
           </p>
-
         </div>
       </div>
     </div>

@@ -29,13 +29,19 @@ const PROMPTS = [
   "Beschreibe einen politischen Konflikt aus türkischer Perspektive",
 ];
 
-export function DailyWriting() {
+interface DailyWritingProps {
+  onWritingFocusChange?: (focused: boolean) => void;
+}
+
+export function DailyWriting({ onWritingFocusChange }: DailyWritingProps) {
   const [prompt] = useState(PROMPTS[Math.floor(Math.random() * PROMPTS.length)]);
   const [useCustomTopic, setUseCustomTopic] = useState(false);
   const [customTopic, setCustomTopic] = useState('');
   const [userText, setUserText] = useState('');
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState<WritingAnalysis | null>(null);
+
+  const wordCount = userText.split(/\s+/).filter((w) => w).length;
 
   const handleSubmit = async () => {
     if (useCustomTopic && !customTopic.trim()) {
@@ -90,78 +96,85 @@ export function DailyWriting() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-lg mb-6">
-        <h2 className="text-2xl font-bold mb-2">📝 Tägliche Schreibübung</h2>
-        <p className="text-red-100">Schreibe mindestens 100 Wörter auf Türkisch</p>
-      </div>
-
-      {/* Topic selection */}
-      <div className="flex gap-4 mb-4">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            checked={!useCustomTopic}
-            onChange={() => setUseCustomTopic(false)}
-            className="w-4 h-4"
-          />
-          <span>🎲 Zufälliges Thema</span>
-        </label>
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            checked={useCustomTopic}
-            onChange={() => setUseCustomTopic(true)}
-            className="w-4 h-4"
-          />
-          <span>✍️ Eigenes Thema</span>
-        </label>
-      </div>
-
-      {/* Prompt */}
-      {!useCustomTopic ? (
-        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-4">
-          <p className="font-semibold text-amber-800">Thema:</p>
-          <p className="text-amber-900">{prompt}</p>
+    <div className="flex flex-col gap-8">
+      <div className="bg-white rounded-xl shadow-sm p-8">
+        <div className="bg-gradient-to-r from-brand to-brand-dark text-white p-6 rounded-xl mb-6">
+          <h2 className="text-2xl font-bold mb-2 font-sans">📝 Tägliche Schreibübung</h2>
+          <p className="text-white/90 font-sans">Schreibe mindestens 100 Wörter auf Türkisch</p>
         </div>
-      ) : (
-        <div className="mb-4">
-          <label className="block font-semibold text-amber-800 mb-2">Dein Thema:</label>
-          <input
-            type="text"
-            value={customTopic}
-            onChange={(e) => setCustomTopic(e.target.value)}
-            placeholder="z.B. Meine Reise nach Istanbul"
-            className="w-full p-4 border border-amber-300 rounded-lg bg-amber-50 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+
+        {/* Topic selection */}
+        <div className="flex gap-4 mb-4 font-sans">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              checked={!useCustomTopic}
+              onChange={() => setUseCustomTopic(false)}
+              className="w-4 h-4"
+            />
+            <span>🎲 Zufälliges Thema</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              checked={useCustomTopic}
+              onChange={() => setUseCustomTopic(true)}
+              className="w-4 h-4"
+            />
+            <span>✍️ Eigenes Thema</span>
+          </label>
+        </div>
+
+        {/* Prompt */}
+        {!useCustomTopic ? (
+          <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6 rounded-btn font-sans">
+            <p className="font-semibold text-amber-800">Thema:</p>
+            <p className="text-amber-900">{prompt}</p>
+          </div>
+        ) : (
+          <div className="mb-6">
+            <label className="block font-semibold text-amber-800 mb-2 font-sans">Dein Thema:</label>
+            <input
+              type="text"
+              value={customTopic}
+              onChange={(e) => setCustomTopic(e.target.value)}
+              placeholder="z.B. Meine Reise nach Istanbul"
+              className="w-full p-4 border border-amber-300 rounded-btn bg-amber-50 focus:ring-2 focus:ring-brand focus:border-brand font-sans"
+              disabled={loading || analysis !== null}
+            />
+          </div>
+        )}
+
+        {/* Textfeld mit Wortzahl-Badge */}
+        <div className="relative mb-6">
+          <textarea
+            value={userText}
+            onChange={(e) => setUserText(e.target.value)}
+            onFocus={() => onWritingFocusChange?.(true)}
+            onBlur={() => onWritingFocusChange?.(false)}
+            className="w-full h-64 p-4 pr-20 rounded-btn border-0 shadow-inner bg-cream/50 focus:ring-2 focus:ring-brand outline-none font-sans resize-none"
+            placeholder="Schreibe hier auf Türkisch..."
+          />
+          <span className="absolute bottom-2 right-2 bg-dark/5 text-dark/50 text-xs px-2 py-1 rounded font-sans pointer-events-none">
+            {wordCount} Wörter
+          </span>
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={handleSubmit}
             disabled={loading || analysis !== null}
-          />
+            className="btn bg-brand text-white px-6 py-2.5 rounded-btn font-sans font-medium hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? '⏳ Analysiere...' : '🚀 Analysieren'}
+          </button>
         </div>
-      )}
-
-      {/* Textfeld */}
-      <textarea
-        value={userText}
-        onChange={(e) => setUserText(e.target.value)}
-        className="w-full h-64 p-4 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-red-500"
-        placeholder="Schreibe hier auf Türkisch..."
-      />
-
-      <div className="flex justify-between items-center mb-6">
-        <span className="text-gray-600">
-          {userText.split(/\s+/).filter(w => w).length} Wörter
-        </span>
-        <button
-          onClick={handleSubmit}
-          disabled={loading || analysis !== null}
-          className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 disabled:bg-gray-400"
-        >
-          {loading ? '⏳ Analysiere...' : '🚀 Analysieren'}
-        </button>
       </div>
 
       {/* Analysis Results */}
       {analysis && (
-        <div className="space-y-6">
+        <div className="flex flex-col gap-8">
           {/* Corrections */}
           {analysis.corrections && analysis.corrections.length > 0 && (
             <div className="bg-white border-l-4 border-red-500 p-6 rounded-lg shadow-md">
@@ -221,11 +234,12 @@ export function DailyWriting() {
           )}
 
           <button
+            type="button"
             onClick={() => {
               setUserText('');
               setAnalysis(null);
             }}
-            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
+            className="btn w-full bg-green-600 text-white py-3 rounded-btn font-sans hover:bg-green-700"
           >
             ✅ Neue Übung starten
           </button>

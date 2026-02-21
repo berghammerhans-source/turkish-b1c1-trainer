@@ -2,10 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-body, #root {
+:root {
+  --red: #C8102E;
+  --red-dark: #9B0022;
+  --cream: #FAF7F2;
+  --dark: #1A0A0E;
+}
+
+body,
+#root {
   margin: 0;
-  background-color: #ffffff !important;
+  background-color: var(--cream) !important;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Einheitliche Button-Klasse */
+.btn {
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn:hover,
+.btn:focus {
+  text-decoration: none;
+}
+
+button.btn,
+a.btn {
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
 }
