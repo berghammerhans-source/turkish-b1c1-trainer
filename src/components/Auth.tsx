@@ -52,6 +52,7 @@ export default function Auth() {
       if (signUpError) throw signUpError;
       setSuccessMessage('Registrierung erfolgreich. Bitte prüfe deine E-Mails zur Bestätigung.');
       setPassword('');
+      navigate('/dashboard', { replace: true });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       setError(getGermanError(msg));
